@@ -1,6 +1,7 @@
 package com.gyojincompany.ch2801;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.gyojincompany.ch2801.dao.ContentDao;
+import com.gyojincompany.ch2801.dto.ContentDto;
 
 /**
  * Handles requests for the application home page.
@@ -42,6 +44,23 @@ public class HomeController {
 		String mcontent = request.getParameter("mcontent");
 		
 		dao.writeDao(mwriter, mcontent);
+		
+		return "redirect:list";
+	}
+	
+	@RequestMapping(value = "/list")
+	public String list(Model model) {
+		
+		ArrayList<ContentDto> dtos = dao.listDao();
+		model.addAttribute("list", dtos);
+		
+		return "list";
+	}
+	
+	@RequestMapping(value = "/delete")
+	public String delete(HttpServletRequest request) {
+				
+		dao.deleteDao(request.getParameter("mid"));
 		
 		return "redirect:list";
 	}

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 
 import com.gyojincompany.ch2801.dto.ContentDto;
 
@@ -51,6 +52,23 @@ public class ContentDao implements IDao{
 				pstmt.setString(2, mcontent);
 				
 				return pstmt;
+			}
+		});
+		
+		
+	}
+
+	@Override
+	public void deleteDao(final String mid) {
+		// TODO Auto-generated method stub
+		String sql = "DELETE FROM simple_board WHERE mid=?";
+		this.template.update(sql, new PreparedStatementSetter() {
+			
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				// TODO Auto-generated method stub
+				ps.setInt(1, Integer.parseInt(mid));
+				
 			}
 		});
 		
